@@ -20,13 +20,14 @@ import static com.luanadev.agendaapplication.ui.activity.ConstantesActivities.CH
 public class ListaAlunosActivity extends AppCompatActivity {
 
     private static final String TITULO_APPBAR = "Lista de alunos";
-    private final ListaAlunosView listaAlunosView = new ListaAlunosView(this);
+    private ListaAlunosView listaAlunosView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
         setTitle(TITULO_APPBAR);
+        listaAlunosView = new ListaAlunosView(this);
         configuraFabNovoAluno();
         configuraLista();
     }
@@ -34,13 +35,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater()
-                .inflate(R.menu.activity_lista_alunos_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_lista_alunos_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-
         int itemId = item.getItemId();
         if (itemId == R.id.activity_lista_alunos_menu_remover) {
             listaAlunosView.confirmaRemocao(item);

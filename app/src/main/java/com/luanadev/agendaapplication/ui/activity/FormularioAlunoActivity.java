@@ -9,7 +9,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.luanadev.agendaapplication.R;
-import com.luanadev.agendaapplication.dao.AlunoDAO;
+import com.luanadev.agendaapplication.database.AgendaDataBase;
+import com.luanadev.agendaapplication.database.dao.AlunoDao;
 import com.luanadev.agendaapplication.model.Aluno;
 
 import static com.luanadev.agendaapplication.ui.activity.ConstantesActivities.CHAVE_ALUNO;
@@ -21,13 +22,15 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
-    private final AlunoDAO dao = new AlunoDAO();
+    private AlunoDao dao;
     private Aluno aluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario_aluno);
+        AgendaDataBase dataBase = AgendaDataBase.getInstance(this);
+        dao = dataBase.getRoomAlunoDao();
         inicializacaoDosCampos();
         carregaAluno();
     }
@@ -42,7 +45,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if(itemId == R.id.activity_formulario_aluno_menu_salvar){
+        if (itemId == R.id.activity_formulario_aluno_menu_salvar) {
             finalizaFormulario();
         }
         return super.onOptionsItemSelected(item);
