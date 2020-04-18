@@ -2,7 +2,10 @@ package com.luanadev.agendaapplication;
 
 import android.app.Application;
 
-import com.luanadev.agendaapplication.dao.AlunoDAO;
+import androidx.room.Room;
+
+import com.luanadev.agendaapplication.database.AgendaDataBase;
+import com.luanadev.agendaapplication.database.dao.RoomAlunoDao;
 import com.luanadev.agendaapplication.model.Aluno;
 
 class AgendaApplication extends Application {
@@ -14,7 +17,8 @@ class AgendaApplication extends Application {
     }
 
     private void criaAlunosDeTeste() {
-        AlunoDAO dao = new AlunoDAO();
+        AgendaDataBase dataBase = Room.databaseBuilder(this, AgendaDataBase.class, "agenda.db").build();
+        RoomAlunoDao dao = dataBase.getRoomAlunoDao();
         dao.salva(new Aluno("Alex", "1122223333", "alex@alura.com.br"));
         dao.salva(new Aluno("Fran", "1122223333", "fran@gmail.com"));
     }

@@ -6,21 +6,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.room.Room;
 
-import com.luanadev.agendaapplication.dao.AlunoDAO;
+import com.luanadev.agendaapplication.database.AgendaDataBase;
+import com.luanadev.agendaapplication.database.dao.RoomAlunoDao;
 import com.luanadev.agendaapplication.model.Aluno;
 import com.luanadev.agendaapplication.ui.adapter.ListaAlunosAdapter;
 
 public class ListaAlunosView {
 
     private final ListaAlunosAdapter adapter;
-    private final AlunoDAO dao;
+    private final RoomAlunoDao dao;
     private final Context context;
 
     public ListaAlunosView(Context context) {
         this.context = context;
         this.adapter = new ListaAlunosAdapter(this.context);
-        this.dao = new AlunoDAO();
+        dao = Room.databaseBuilder(context, AgendaDataBase.class, "agenda.db").build().getRoomAlunoDao();
     }
 
     public void confirmaRemocao(final MenuItem item) {
