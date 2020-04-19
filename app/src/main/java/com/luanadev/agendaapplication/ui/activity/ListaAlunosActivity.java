@@ -15,18 +15,18 @@ import com.luanadev.agendaapplication.R;
 import com.luanadev.agendaapplication.model.Aluno;
 import com.luanadev.agendaapplication.ui.ListaAlunosView;
 
-import static com.luanadev.agendaapplication.ui.activity.ConstantesActivities.CHAVE_ALUNO;
+import static com.luanadev.agendaapplication.ui.activity.Constantes.ALUNO;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
-    private static final String TITULO_APPBAR = "Lista de alunos";
+    private static final String LISTA_DE_ALUNOS = "Lista de alunos";
     private ListaAlunosView listaAlunosView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
-        setTitle(TITULO_APPBAR);
+        setTitle(LISTA_DE_ALUNOS);
         listaAlunosView = new ListaAlunosView(this);
         configuraFabNovoAluno();
         configuraLista();
@@ -79,7 +79,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     private void abreFormularioModoEditaAluno(Aluno aluno) {
         Intent vaiParaFormularioActivity = new Intent(ListaAlunosActivity.this, FormularioAlunoActivity.class);
-        vaiParaFormularioActivity.putExtra(CHAVE_ALUNO, aluno);
+        vaiParaFormularioActivity.putExtra(ALUNO, aluno);
         startActivity(vaiParaFormularioActivity);
     }
 

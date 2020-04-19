@@ -13,12 +13,12 @@ import com.luanadev.agendaapplication.database.AgendaDataBase;
 import com.luanadev.agendaapplication.database.dao.AlunoDao;
 import com.luanadev.agendaapplication.model.Aluno;
 
-import static com.luanadev.agendaapplication.ui.activity.ConstantesActivities.CHAVE_ALUNO;
+import static com.luanadev.agendaapplication.ui.activity.Constantes.ALUNO;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
-    private static final String TITULO_APPBAR_NOVO_ALUNO = "Novo aluno";
-    private static final String TITULO_APPBAR_EDITA_ALUNO = "Edita aluno";
+    private static final String NOVO_ALUNO = "Novo aluno";
+    private static final String EDITA_ALUNO = "Edita aluno";
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
@@ -53,12 +53,12 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void carregaAluno() {
         Intent dados = getIntent();
-        if (dados.hasExtra(CHAVE_ALUNO)) {
-            setTitle(TITULO_APPBAR_EDITA_ALUNO);
-            aluno = (Aluno) dados.getSerializableExtra(CHAVE_ALUNO);
+        if (dados.hasExtra(ALUNO)) {
+            setTitle(EDITA_ALUNO);
+            aluno = (Aluno) dados.getSerializableExtra(ALUNO);
             preencheCampos();
         } else {
-            setTitle(TITULO_APPBAR_NOVO_ALUNO);
+            setTitle(NOVO_ALUNO);
             aluno = new Aluno();
         }
     }
