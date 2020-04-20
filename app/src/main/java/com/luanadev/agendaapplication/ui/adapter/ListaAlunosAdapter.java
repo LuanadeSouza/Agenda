@@ -56,14 +56,11 @@ public class ListaAlunosAdapter extends BaseAdapter {
         nome.setText(aluno.getNome());
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
         new BuscaPrimeiroTelefoneDoAlunoTask(dao, aluno.getId(),
-                telefoneEncontrado ->
-                        telefone.setText(telefoneEncontrado.getNumero())).execute();
+                telefoneEncontrado -> telefone.setText(telefoneEncontrado.getNumero())).execute();
     }
 
     private View criaView(ViewGroup viewGroup) {
-        return LayoutInflater
-                .from(context)
-                .inflate(R.layout.item_aluno, viewGroup, false);
+        return LayoutInflater.from(context).inflate(R.layout.item_aluno, viewGroup, false);
     }
 
     public void atualiza(List<Aluno> alunos) {

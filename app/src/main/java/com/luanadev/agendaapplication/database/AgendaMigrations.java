@@ -90,7 +90,6 @@ class AgendaMigrations {
             database.execSQL("ALTER TABLE Aluno_novo RENAME TO Aluno");
         }
     };
-    static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3,
-            MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6};
+    static final Migration[] TODAS_MIGRATIONS = {MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6};
 
 }

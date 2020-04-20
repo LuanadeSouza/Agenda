@@ -1,16 +1,12 @@
 package com.luanadev.agendaapplication.model;
 
 import android.icu.util.Calendar;
-import android.os.Build;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 @Entity
 public class Aluno implements Serializable {
 

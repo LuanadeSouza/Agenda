@@ -10,7 +10,6 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity
 public class Telefone {
 
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String numero;
