@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.luanadev.agendaapplication.R;
+import com.luanadev.agendaapplication.asynctask.BuscaPrimeiroTelefoneDoAlunoTask;
+import com.luanadev.agendaapplication.database.AgendaDataBase;
+import com.luanadev.agendaapplication.database.dao.TelefoneDAO;
 import com.luanadev.agendaapplication.model.Aluno;
 
 import java.util.ArrayList;
@@ -15,11 +18,14 @@ import java.util.List;
 
 public class ListaAlunosAdapter extends BaseAdapter {
 
+
     private final List<Aluno> alunos = new ArrayList<>();
     private final Context context;
+    private final TelefoneDAO dao;
 
     public ListaAlunosAdapter(Context context) {
         this.context = context;
+        dao = AgendaDataBase.AgendaDatabase.getInstance(context).getTelefoneDAO();
     }
 
     @Override
@@ -49,7 +55,9 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView nome = view.findViewById(R.id.item_aluno_nome);
         nome.setText(aluno.getNome());
         TextView telefone = view.findViewById(R.id.item_aluno_telefone);
-        telefone.setText(aluno.getTelefone());
+        new BuscaPrimeiroTelefoneDoAlunoTask(dao, aluno.getId(),
+                telefoneEncontrado ->
+                        telefone.setText(telefoneEncontrado.getNumero())).execute();
     }
 
     private View criaView(ViewGroup viewGroup) {
@@ -58,7 +66,7 @@ public class ListaAlunosAdapter extends BaseAdapter {
                 .inflate(R.layout.item_aluno, viewGroup, false);
     }
 
-    public void atualiza(List<Aluno> alunos){
+    public void atualiza(List<Aluno> alunos) {
         this.alunos.clear();
         this.alunos.addAll(alunos);
         notifyDataSetChanged();

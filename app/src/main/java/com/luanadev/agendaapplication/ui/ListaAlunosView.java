@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import androidx.appcompat.app.AlertDialog;
 
+import com.luanadev.agendaapplication.asynctask.BuscaAlunoTask;
+import com.luanadev.agendaapplication.asynctask.RemoveAlunoTask;
 import com.luanadev.agendaapplication.database.AgendaDataBase;
 import com.luanadev.agendaapplication.database.dao.AlunoDao;
 import com.luanadev.agendaapplication.model.Aluno;
@@ -20,7 +23,8 @@ public class ListaAlunosView {
     public ListaAlunosView(Context context) {
         this.context = context;
         this.adapter = new ListaAlunosAdapter(this.context);
-        dao = AgendaDataBase.getInstance(context).getRoomAlunoDao();
+        dao = AgendaDataBase.AgendaDatabase.getInstance(context)
+                .getAlunoDAO();
     }
 
     public void confirmaRemocao(final MenuItem item) {
@@ -33,16 +37,17 @@ public class ListaAlunosView {
                             (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                     Aluno alunoEscolhido = adapter.getItem(menuInfo.position);
                     remove(alunoEscolhido);
-                }).setNegativeButton("Não", null).show();
+                })
+                .setNegativeButton("Não", null)
+                .show();
     }
 
     public void atualizaAlunos() {
-        adapter.atualiza(dao.todos());
+        new BuscaAlunoTask(dao, adapter).execute();
     }
 
     private void remove(Aluno aluno) {
-        dao.remove(aluno);
-        adapter.remove(aluno);
+        new RemoveAlunoTask(dao, adapter, aluno).execute();
     }
 
     public void configuraAdapter(ListView listaDeAlunos) {

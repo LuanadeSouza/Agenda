@@ -2,37 +2,38 @@ package com.luanadev.agendaapplication.database;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.room.TypeConverters;
 
+
+import com.luanadev.agendaapplication.database.converter.ConversorCalendar;
+import com.luanadev.agendaapplication.database.converter.ConversorTipoTelefone;
 import com.luanadev.agendaapplication.database.dao.AlunoDao;
+import com.luanadev.agendaapplication.database.dao.TelefoneDAO;
 import com.luanadev.agendaapplication.model.Aluno;
+import com.luanadev.agendaapplication.model.Telefone;
 
-@Database(entities = {Aluno.class}, version = 3, exportSchema = false)
+import static com.luanadev.agendaapplication.database.AgendaMigrations.TODAS_MIGRATIONS;
+
+@Database(entities = {Aluno.class, Telefone.class}, version = 6, exportSchema = false)
 public abstract class AgendaDataBase extends RoomDatabase {
-    private static String NOME_BANCO_DE_DADOS = "agenda.db";
+    @TypeConverters({ConversorCalendar.class, ConversorTipoTelefone.class})
+    public abstract static class AgendaDatabase extends RoomDatabase {
 
-    public abstract AlunoDao getRoomAlunoDao();
+        private static final String NOME_BANCO_DE_DADOS = "agenda.db";
 
-    public static AgendaDataBase getInstance(Context context) {
-        return Room.databaseBuilder(context, AgendaDataBase.class, NOME_BANCO_DE_DADOS)
-                .allowMainThreadQueries().addMigrations(new Migration(1, 2) {
-                    @Override
-                    public void migrate(@NonNull SupportSQLiteDatabase database) {
-                        database.execSQL("ALTER TABLE  aluno ADD COLUMN sobrenome TEXT");
-                    }
-                }, new Migration(2, 3) {
-                    @Override
-                    public void migrate(@NonNull SupportSQLiteDatabase database) {
-                        database.execSQL("CREATE TABLE IF NOT EXISTS `Aluno_novo` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT, `telefone` TEXT, `email` TEXT)");
-                        database.execSQL("INSERT INTO Aluno_novo (id, nome, email ) SELECT id, nome, email FROM Aluno");
-                        database.execSQL("DROP TABLE Aluno");
-                        database.execSQL("ALTER TABLE Aluno_novo RENAME TO Aluno");
-                    }
-                }).build();
+        public abstract AlunoDao getAlunoDAO();
+
+        public abstract TelefoneDAO getTelefoneDAO();
+
+        public  static AgendaDatabase getInstance(Context context) {
+            return Room
+                    .databaseBuilder(context, AgendaDatabase.class, NOME_BANCO_DE_DADOS)
+                    .addMigrations(TODAS_MIGRATIONS)
+                    .build();
+        }
     }
 }
